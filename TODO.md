@@ -1,6 +1,5 @@
 # TODO
 
-* ~~Fill out [README.md](README.md)~~
 * Dev
   * Reduce complexity of `main.go`
   * Split into multiple files
@@ -14,4 +13,5 @@
   * ~~Add~~ Test install script
 * CI
   * Use ko to build and push to ghcr.io
-  * Add goreleaser
+  * ~~Add goreleaser~~
+  * Add release-please
