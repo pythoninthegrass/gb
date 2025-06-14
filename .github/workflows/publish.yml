@@ -1,0 +1,20 @@
+name: SLSA Go Releaser
+
+on:
+  workflow_dispatch:
+  release:
+    types: [created]
+
+permissions: read-all
+
+jobs:
+  build:
+    permissions:
+      id-token: write # To sign.
+      contents: write # To upload release assets.
+      actions: read   # To read workflow path.
+    uses: slsa-framework/slsa-github-generator/.github/workflows/builder_go_slsa3.yml@v1.4.0
+    with:
+      go-version-file: go.mod
+      config-file: .slsa-goreleaser.yml
+      evaluated-envs: "VERSION:${{ github.ref_name || 'dev' }}, BUILD_TIME:${{ github.run_id }}, COMMIT:${{ github.sha }}"
