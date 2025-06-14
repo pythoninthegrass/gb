@@ -128,11 +128,7 @@ kos:
 # SBOM generation
 sboms:
   - id: archive-sbom
-    cmd: syft
-    args: ["${artifact}", "--file", "${artifact}.sbom.json", "--output", "spdx-json"]
-    documents:
-      - "${artifact}.sbom.json"
-    artifacts: archive
+    artifacts: none
 
 # Signing with cosign (optional)
 # signs:
