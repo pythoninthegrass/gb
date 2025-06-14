@@ -1,10 +1,6 @@
 # TODO
 
-* Fill out [README.md](README.md)
-  * Minimum requirements
-  * Recommended requirements
-  * Quickstart
-  * Development
+* ~~Fill out [README.md](README.md)~~
 * Dev
   * Reduce complexity of `main.go`
   * Split into multiple files
