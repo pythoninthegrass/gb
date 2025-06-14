@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  check:
+    desc: "Check goreleaser configuration"
+    dir: "{{.ROOT_DIR}}"
+    cmds:
+      - goreleaser check
+
+  build:
+    desc: "Build snapshot (test release without publishing)"
+    dir: "{{.ROOT_DIR}}"
+    cmds:
+      - goreleaser build --snapshot --clean
+
+  snapshot:
+    desc: "Create snapshot release (test full release without publishing)"
+    dir: "{{.ROOT_DIR}}"
+    cmds:
+      - goreleaser release --snapshot --clean
+
+  release:
+    desc: "Create and publish release (requires tag)"
+    dir: "{{.ROOT_DIR}}"
+    cmds:
+      - goreleaser release --clean
+
+  clean:
+    desc: "Clean release artifacts"
+    dir: "{{.ROOT_DIR}}"
+    cmds:
+      - find {{.ROOT_DIR}}/dist/ -mindepth 1 -not -name ".gitkeep" -delete

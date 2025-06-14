@@ -10,10 +10,10 @@ tasks:
       - "{{.ROOT_DIR}}/go.mod"
       - "{{.ROOT_DIR}}/go.sum"
     generates:
-      - "{{.ROOT_DIR}}/bin/{{.BINARY_NAME}}{{exeExt}}"
+      - "{{.ROOT_DIR}}/dist/{{.BINARY_NAME}}{{exeExt}}"
     cmds:
-      - mkdir -p {{.ROOT_DIR}}/bin
-      - cd {{.ROOT_DIR}} && go build {{.LDFLAGS}} -o bin/{{.BINARY_NAME}}{{exeExt}} .
+      - mkdir -p {{.ROOT_DIR}}/dist
+      - cd {{.ROOT_DIR}} && go build {{.LDFLAGS}} -o dist/{{.BINARY_NAME}}{{exeExt}} .
 
   all:
     desc: "Build for all platforms"
@@ -28,12 +28,12 @@ tasks:
       - "{{.ROOT_DIR}}/go.mod"
       - "{{.ROOT_DIR}}/go.sum"
     generates:
-      - "{{.ROOT_DIR}}/bin/{{.BINARY_NAME}}-linux-amd64"
-      - "{{.ROOT_DIR}}/bin/{{.BINARY_NAME}}-linux-arm64"
+      - "{{.ROOT_DIR}}/dist/{{.BINARY_NAME}}-linux-amd64"
+      - "{{.ROOT_DIR}}/dist/{{.BINARY_NAME}}-linux-arm64"
     cmds:
-      - mkdir -p {{.ROOT_DIR}}/bin
-      - cd {{.ROOT_DIR}} && GOOS=linux GOARCH=amd64 go build {{.LDFLAGS}} -o bin/{{.BINARY_NAME}}-linux-amd64 .
-      - cd {{.ROOT_DIR}} && GOOS=linux GOARCH=arm64 go build {{.LDFLAGS}} -o bin/{{.BINARY_NAME}}-linux-arm64 .
+      - mkdir -p {{.ROOT_DIR}}/dist
+      - cd {{.ROOT_DIR}} && GOOS=linux GOARCH=amd64 go build {{.LDFLAGS}} -o dist/{{.BINARY_NAME}}-linux-amd64 .
+      - cd {{.ROOT_DIR}} && GOOS=linux GOARCH=arm64 go build {{.LDFLAGS}} -o dist/{{.BINARY_NAME}}-linux-arm64 .
 
   darwin:
     desc: "Build for macOS (amd64, arm64)"
@@ -42,17 +42,17 @@ tasks:
       - "{{.ROOT_DIR}}/go.mod"
       - "{{.ROOT_DIR}}/go.sum"
     generates:
-      - "{{.ROOT_DIR}}/bin/{{.BINARY_NAME}}-darwin-amd64"
-      - "{{.ROOT_DIR}}/bin/{{.BINARY_NAME}}-darwin-arm64"
+      - "{{.ROOT_DIR}}/dist/{{.BINARY_NAME}}-darwin-amd64"
+      - "{{.ROOT_DIR}}/dist/{{.BINARY_NAME}}-darwin-arm64"
     cmds:
-      - mkdir -p {{.ROOT_DIR}}/bin
-      - cd {{.ROOT_DIR}} && GOOS=darwin GOARCH=amd64 go build {{.LDFLAGS}} -o bin/{{.BINARY_NAME}}-darwin-amd64 .
-      - cd {{.ROOT_DIR}} && GOOS=darwin GOARCH=arm64 go build {{.LDFLAGS}} -o bin/{{.BINARY_NAME}}-darwin-arm64 .
+      - mkdir -p {{.ROOT_DIR}}/dist
+      - cd {{.ROOT_DIR}} && GOOS=darwin GOARCH=amd64 go build {{.LDFLAGS}} -o dist/{{.BINARY_NAME}}-darwin-amd64 .
+      - cd {{.ROOT_DIR}} && GOOS=darwin GOARCH=arm64 go build {{.LDFLAGS}} -o dist/{{.BINARY_NAME}}-darwin-arm64 .
 
   clean:
     desc: "Remove build artifacts"
     cmds:
-      - find {{.ROOT_DIR}}/bin/ -mindepth 1 -not -name ".gitkeep" -delete
+      - find {{.ROOT_DIR}}/dist/ -mindepth 1 -not -name ".gitkeep" -delete
 
   watch:
     desc: "Watch for changes and rebuild"

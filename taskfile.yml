@@ -22,6 +22,9 @@ includes:
     aliases: ["golang"]
   ko:
     taskfile: ./taskfiles/ko.yml
+  release:
+    taskfile: ./taskfiles/release.yml
+    aliases: ["goreleaser"]
   test:
     taskfile: ./taskfiles/test.yml
 
