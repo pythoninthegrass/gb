@@ -1,6 +1,6 @@
 # ETC
 .task/
-bin/*
+dist/*
 
 # General
 .DS_Store

@@ -1,0 +1,145 @@
+# https://goreleaser.com/
+
+version: 2
+
+project_name: gb
+
+before:
+  hooks:
+    - go mod tidy
+    - go mod download
+
+env:
+  - CGO_ENABLED=0
+
+builds:
+  - id: gb
+    main: .
+    binary: gb
+    goos:
+      - linux
+      - darwin
+      # - windows  # Add when you're ready for Windows support
+    goarch:
+      - amd64
+      - arm64
+    flags:
+      - -tags=netgo
+      - -trimpath
+    ldflags:
+      - -s
+      - -w
+      - -X main.Version={{.Version}}
+      - -X main.BuildTime={{.Date}}
+      - -X main.Commit={{.Commit}}
+    env:
+      - CGO_ENABLED=0
+
+archives:
+  - id: default
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - README.md
+      - LICENSE*
+      - CHANGELOG.md
+
+checksum:
+  name_template: 'checksums.txt'
+  algorithm: sha256
+
+release:
+  github:
+    owner: pythoninthegrass
+    name: gb
+  draft: false
+  prerelease: auto
+  mode: replace
+  name_template: "Release {{ .Version }}"
+  header: |
+    ## gb {{ .Version }}
+
+    A fast git bundle creation and restoration tool.
+
+    ### Changes in this release:
+  footer: |
+    ## Installation
+
+    ### Download Binary
+    Download the appropriate binary for your platform from the assets below.
+
+    ### Install Script
+    ```bash
+    curl -sSL https://raw.githubusercontent.com/pythoninthegrass/gb/main/scripts/install.sh | bash
+    ```
+
+    ### Using Go
+    ```bash
+    go install github.com/pythoninthegrass/gb@{{ .Tag }}
+    ```
+
+changelog:
+  use: github
+  sort: asc
+  abbrev: 0
+  groups:
+    - title: Features
+      regexp: "^.*feat[(\\w)]*:+.*$"
+      order: 0
+    - title: 'Bug fixes'
+      regexp: "^.*fix[(\\w)]*:+.*$"
+      order: 1
+    - title: Others
+      order: 999
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^ci:'
+      - '^build:'
+      - '^style:'
+      - 'merge conflict'
+      - Merge pull request
+      - Merge remote-tracking branch
+      - Merge branch
+
+# Container images with ko
+kos:
+  - id: gb
+    repository: ghcr.io/pythoninthegrass/gb
+    base_image: cgr.dev/chainguard/static:latest
+    tags:
+      - "{{.Tag}}"
+      - "{{ if not .Prerelease }}latest{{ end }}"
+    bare: true
+    preserve_import_paths: false
+    sbom: none
+    platforms:
+      - linux/amd64
+      - linux/arm64
+    flags:
+      - -trimpath
+    ldflags:
+      - -s
+      - -w
+      - -X main.Version={{.Version}}
+      - -X main.BuildTime={{.Date}}
+      - -X main.Commit={{.Commit}}
+
+# SBOM generation
+sboms:
+  - id: archive-sbom
+    cmd: syft
+    args: ["${artifact}", "--file", "${artifact}.sbom.json", "--output", "spdx-json"]
+    documents:
+      - "${artifact}.sbom.json"
+    artifacts: archive
+
+# Signing with cosign (optional)
+# signs:
+#   - cmd: cosign
+#     args:
+#       - sign-blob
+#       - --yes
+#       - --output-signature=${signature}
+#       - ${artifact}
+#     artifacts: checksum
