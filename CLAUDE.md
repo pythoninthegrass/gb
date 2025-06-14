@@ -10,7 +10,7 @@ The project uses Task (taskfile) for build automation:
 - `task build:all` - Build for all platforms (Linux/macOS amd64/arm64)  
 - `task build:clean` - Remove build artifacts
 - `task build:watch` - Watch for changes and rebuild
-- `task build` - Build for current platform (output: bin/gb)
+- `task build` - Build for current platform (output: dist/gb)
 - `task go:deps` - Install/update Go dependencies
 - `task ko:build-platforms` - Build multi-platform container images (linux/amd64,linux/arm64)
 - `task ko:build-push` - Build and push container image to registry
