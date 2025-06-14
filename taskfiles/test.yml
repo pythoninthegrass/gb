@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  default:
+    desc: "Run tests"
+    dir: "{{.ROOT_DIR}}"
+    sources:
+      - "{{.ROOT_DIR}}/**/*.go"
+    cmds:
+      - go test -v ./...
+
+  backup:
+    desc: "Test backup functionality"
+    deps:
+      - ":build:default"
+    cmds:
+      - "{{.ROOT_DIR}}/bin/{{.BINARY_NAME}}{{exeExt}} backup -v"
+
+  restore:
+    desc: "Test restore functionality"
+    deps:
+      - ":build:default"
+    cmds:
+      - "{{.ROOT_DIR}}/bin/{{.BINARY_NAME}}{{exeExt}} restore -v"

@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+vars:
+  REGISTRY: '{{.REGISTRY | default "ghcr.io"}}'
+  ORG: '{{.ORG | default "pythoninthegrass"}}'
+  BINARY_NAME: gb
+  VERSION:
+    sh: git describe --tags --always --dirty 2>/dev/null || echo "dev"
+  BUILD_TIME:
+    sh: date -u '+%Y-%m-%d_%H:%M:%S'
+  COMMIT:
+    sh: git rev-parse --short HEAD 2>/dev/null || echo "unknown"
+  LDFLAGS: -ldflags "-X main.Version={{.VERSION}} -X main.BuildTime={{.BUILD_TIME}} -X main.Commit={{.COMMIT}} -s -w"
+
+includes:
+  build:
+    taskfile: ./taskfiles/build.yml
+  go:
+    taskfile: ./taskfiles/go.yml
+    aliases: ["golang"]
+  ko:
+    taskfile: ./taskfiles/ko.yml
+  test:
+    taskfile: ./taskfiles/test.yml
+
+tasks:
+  default:
+    cmds:
+      - task --list-all

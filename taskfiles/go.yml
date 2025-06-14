@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  deps:
+    desc: "Install/update dependencies"
+    dir: "{{.ROOT_DIR}}"
+    sources:
+      - "go.mod"
+    generates:
+      - "go.sum"
+    cmds:
+      - go mod download
+      - go mod tidy

@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+vars:
+  KO_DOCKER_REPO: "{{.REGISTRY}}/{{.ORG}}/{{.BINARY_NAME}}"
+
+tasks:
+  build:
+    desc: "Build container image with ko"
+    sources:
+      - "{{.ROOT_DIR}}/**/*.go"
+      - "{{.ROOT_DIR}}/go.mod"
+      - "{{.ROOT_DIR}}/go.sum"
+      - "{{.ROOT_DIR}}/.ko.yaml"
+    env:
+      VERSION: "{{.VERSION}}"
+      BUILD_TIME: "{{.BUILD_TIME}}"
+      COMMIT: "{{.COMMIT}}"
+    cmds:
+      - ko build --local {{.ROOT_DIR}}
+
+  build-push:
+    desc: "Build and push container image with ko"
+    sources:
+      - "{{.ROOT_DIR}}/**/*.go"
+      - "{{.ROOT_DIR}}/go.mod"
+      - "{{.ROOT_DIR}}/go.sum"
+      - "{{.ROOT_DIR}}/.ko.yaml"
+    env:
+      VERSION: "{{.VERSION}}"
+      BUILD_TIME: "{{.BUILD_TIME}}"
+      COMMIT: "{{.COMMIT}}"
+    cmds:
+      - ko build {{.ROOT_DIR}}
+
+  build-platforms:
+    desc: "Build multi-platform container images with ko"
+    sources:
+      - "{{.ROOT_DIR}}/**/*.go"
+      - "{{.ROOT_DIR}}/go.mod"
+      - "{{.ROOT_DIR}}/go.sum"
+      - "{{.ROOT_DIR}}/.ko.yaml"
+    env:
+      VERSION: "{{.VERSION}}"
+      BUILD_TIME: "{{.BUILD_TIME}}"
+      COMMIT: "{{.COMMIT}}"
+    cmds:
+      - ko build --platform=linux/amd64,linux/arm64 {{.ROOT_DIR}}

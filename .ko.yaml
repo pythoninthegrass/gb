@@ -1,0 +1,38 @@
+# Ko configuration for gb (git bundle tool)
+# https://ko.build/configuration/
+
+# Default base image - using minimal static image for Go binaries
+defaultBaseImage: cgr.dev/chainguard/static:latest
+
+# Default platforms to build for
+defaultPlatforms:
+  - linux/amd64
+  - linux/arm64
+  - darwin/amd64
+  - darwin/arm64
+
+# Build configuration
+builds:
+  - id: gb
+    dir: .
+    main: .
+    flags:
+      - -tags
+      - netgo
+    ldflags:
+      - -s
+      - -w
+      - -X main.Version={{.Env.VERSION}}
+      - -X main.BuildTime={{.Env.BUILD_TIME}}
+      - -X main.Commit={{.Env.COMMIT}}
+    env:
+      - CGO_ENABLED=0
+
+# Image naming strategy
+# Preserve import paths for cleaner image names
+preserveImportPaths: false
+barePackage: true
+
+# Repository configuration
+# Set KO_DOCKER_REPO environment variable to override
+# Example: export KO_DOCKER_REPO=ghcr.io/username/gb
