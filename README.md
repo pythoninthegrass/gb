@@ -19,9 +19,9 @@
 ## Quickstart
 
 > [!NOTE]
-> This project is a work in progress (i.e., pre-alpha). Builds are not yet available.
+> This project is a work in progress (i.e., pre-alpha).
 
-~~Download the latest release from the [releases](https://github.com/pythoninthegrass/gb/releases) page.~~
+Download the latest release from the [releases](https://github.com/pythoninthegrass/gb/releases) page.
 
 ## Development
 
