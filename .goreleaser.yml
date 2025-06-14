@@ -53,7 +53,7 @@ release:
     name: gb
   draft: false
   prerelease: auto
-  mode: replace
+  mode: keep
   name_template: "Release {{ .Version }}"
   header: |
     ## gb {{ .Version }}
