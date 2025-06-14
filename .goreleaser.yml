@@ -125,10 +125,10 @@ kos:
       - -X main.BuildTime={{.Date}}
       - -X main.Commit={{.Commit}}
 
-# SBOM generation
-sboms:
-  - id: archive-sbom
-    artifacts: none
+# SBOM generation disabled
+# sboms:
+#   - id: archive-sbom
+#     artifacts: archive
 
 # Signing with cosign (optional)
 # signs:
