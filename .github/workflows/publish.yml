@@ -1,4 +1,4 @@
-name: Release with SLSA Provenance
+name: Publish binary and container images
 
 on:
   workflow_dispatch:
