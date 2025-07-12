@@ -69,8 +69,6 @@ Git bundles are portable archives containing git repository data that can be
 used for backup, transfer, or distribution purposes. This tool automatically
 discovers git repositories and processes them in parallel for optimal performance.
 
-Default behavior (no command specified): Creates bundles of all repositories.
-
 Use "gb [command] --help" for detailed information about each command.`,
 		Version: "1.0.0",
 	}
@@ -155,9 +153,6 @@ Examples:
 
 	rootCmd.AddCommand(backupCmd)
 	rootCmd.AddCommand(restoreCmd)
-
-	// Set backup as default command
-	rootCmd.Run = backupCmd.Run
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
