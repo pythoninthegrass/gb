@@ -14,6 +14,8 @@ import (
 
 	"github.com/bitfield/script"
 	"github.com/spf13/cobra"
+
+	"gb/internal/version"
 )
 
 type Config struct {
@@ -70,7 +72,7 @@ used for backup, transfer, or distribution purposes. This tool automatically
 discovers git repositories and processes them in parallel for optimal performance.
 
 Use "gb [command] --help" for detailed information about each command.`,
-		Version: "1.0.0",
+		Version: version.String(),
 	}
 
 	// Initialize config with defaults
@@ -151,8 +153,18 @@ Examples:
 	restoreCmd.Flags().BoolVarP(&config.Debug, "debug", "x", false, "Enable debug output")
 	restoreCmd.Flags().BoolVarP(&config.Force, "force", "f", false, "Force overwrite without confirmation")
 
+	var versionCmd = &cobra.Command{
+		Use:   "version",
+		Short: "Show version information",
+		Long:  `Display comprehensive version and build information for gb.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println(version.BuildInfo())
+		},
+	}
+
 	rootCmd.AddCommand(backupCmd)
 	rootCmd.AddCommand(restoreCmd)
+	rootCmd.AddCommand(versionCmd)
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)

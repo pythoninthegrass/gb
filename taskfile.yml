@@ -12,7 +12,7 @@ vars:
     sh: date -u '+%Y-%m-%d_%H:%M:%S'
   COMMIT:
     sh: git rev-parse --short HEAD 2>/dev/null || echo "unknown"
-  LDFLAGS: -ldflags "-X main.Version={{.VERSION}} -X main.BuildTime={{.BUILD_TIME}} -X main.Commit={{.COMMIT}} -s -w"
+  LDFLAGS: -ldflags "-X gb/internal/version.Version={{.VERSION}} -X gb/internal/version.BuildTime={{.BUILD_TIME}} -X gb/internal/version.Commit={{.COMMIT}} -s -w"
 
 includes:
   build:

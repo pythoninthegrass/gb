@@ -55,7 +55,9 @@ EOF
 }
 
 version() {
-    echo "$PKG_NAME installer v0.1.0"
+    local installer_version
+    installer_version=$(git describe --tags --always --dirty 2>/dev/null || echo "dev")
+    echo "$PKG_NAME installer $installer_version"
     echo "Repository: ${BASE_URL}"
 }
 

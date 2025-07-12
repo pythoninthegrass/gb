@@ -21,18 +21,24 @@ The project uses Task (taskfile) for build automation:
 
 ## Architecture
 
-This is a single-file Go CLI application (`main.go`) built with Cobra and the bitfield/script library that creates and restores git bundles:
+This is a Go CLI application built with Cobra and the bitfield/script library that creates and restores git bundles:
 
 - **Core functionality**: Parallel processing of git repositories to create compressed bundle files for backup/transfer
 - **Commands**: 
-  - `backup` (default): Creates bundles from all git repos in a directory tree
+  - `backup`: Creates bundles from all git repos in a directory tree
   - `restore`: Restores repositories from bundle files
+  - `version`: Shows comprehensive build and version information
+  - **Default behavior**: Shows help when no command is specified
 - **Key features**:
   - Multi-threaded processing with configurable job count (default: CPU cores, max 8)
   - Progress monitoring with real-time updates
   - Error tracking and reporting
   - Environment variable configuration (REPO_DIR, OUTPUT_DIR, MAX_JOBS)
   - Cross-platform directory opening after completion
+  - Automatic version management via git tags and build-time injection
+- **Structure**:
+  - `main.go`: Main application logic and CLI commands
+  - `internal/version/`: Version management package with build-time variable injection
 - **Libraries**:
   - [cobra](https://github.com/spf13/cobra): CLI framework for commands, flags, and help
   - [bitfield/script](https://github.com/bitfield/script): Shell command execution pipeline (replaces exec.Command for cleaner shell operations)
@@ -46,5 +52,18 @@ Environment variables:
 - `REPO_DIR`: Source directory for repositories (default: ~/git)
 - `OUTPUT_DIR`: Output directory for bundles (default: /tmp)  
 - `MAX_JOBS`: Maximum parallel jobs (default: auto-detect, max 8)
+
+## Version Management
+
+The project uses automated version management that integrates with release-please:
+
+- **Version source**: Git tags via `git describe --tags --always --dirty`
+- **Build-time injection**: Version information is injected via ldflags during compilation
+- **Version package**: `internal/version/version.go` provides structured version information
+- **Version commands**:
+  - `gb --version`: Shows short version string
+  - `gb version`: Shows comprehensive build information (version, commit, build time, Go version, platform)
+- **Integration**: taskfile.yml variables automatically inject version data into the binary
+- **Release automation**: release-please handles version bumping and tag creation
 
 Build variables in taskfile.yml control versioning and binary naming.
