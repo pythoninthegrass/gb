@@ -18,7 +18,7 @@ readonly BASE_URL="https://github.com/${USER_NAME}/${REPO_NAME}/releases"
 # Environment variable overrides with defaults
 PKG_PATH="${PKG_PATH:-${HOME}/.local/bin}"
 PKG_TYPE="${PKG_TYPE:-tar.gz}"
-BIN_NAME="${BIN_NAME:-${REPO_NAME}}"
+PKG_NAME="${PKG_NAME:-${REPO_NAME}}"
 FORCE="${FORCE:-false}"
 
 # System detection
@@ -31,7 +31,7 @@ USAGE
     $(basename "$0") [options]
 
 DESCRIPTION
-    Download and install the latest $BIN_NAME release from GitHub.
+    Download and install the latest $PKG_NAME release from GitHub.
 
 OPTIONS
     -h, --help      Show this help message and exit
@@ -43,7 +43,7 @@ OPTIONS
 ENVIRONMENT VARIABLES
     PKG_PATH 		Package installation path (default: ~/.local/bin)
     PKG_TYPE     	Package type (default: tar.gz)
-    BIN_NAME     	Binary name (default: repo name)
+    PKG_NAME     	Binary name (default: repo name)
     FORCE        	Force overwrite (true/false, default: false)
 
 EXAMPLES
@@ -55,7 +55,7 @@ EOF
 }
 
 version() {
-    echo "$BIN_NAME installer v0.1.0"
+    echo "$PKG_NAME installer v0.1.0"
     echo "Repository: ${BASE_URL}"
 }
 
@@ -159,10 +159,10 @@ install_package() {
 
             # Find the binary (look for package name without extension)
             local binary_path
-            binary_path=$(find "$temp_dir" -name "$BIN_NAME" -type f | head -1)
+            binary_path=$(find "$temp_dir" -name "$PKG_NAME" -type f | head -1)
 
             if [[ -z "$binary_path" ]]; then
-                error "Could not find '$BIN_NAME' binary in extracted package"
+                error "Could not find '$PKG_NAME' binary in extracted package"
             fi
 
             # Check if binary already exists
@@ -176,7 +176,7 @@ install_package() {
 
             # Cleanup
             rm -rf "$temp_dir"
-            log "Installed $BIN_NAME to: $target_path"
+            log "Installed $PKG_NAME to: $target_path"
             ;;
         zip)
             log "Extracting zip package..."
@@ -192,10 +192,10 @@ install_package() {
 
             # Find the binary (look for package name without extension)
             local binary_path
-            binary_path=$(find "$temp_dir" -name "$BIN_NAME" -type f | head -1)
+            binary_path=$(find "$temp_dir" -name "$PKG_NAME" -type f | head -1)
 
             if [[ -z "$binary_path" ]]; then
-                error "Could not find '$BIN_NAME' binary in extracted package"
+                error "Could not find '$PKG_NAME' binary in extracted package"
             fi
 
             # Check if binary already exists
@@ -209,7 +209,7 @@ install_package() {
 
             # Cleanup
             rm -rf "$temp_dir"
-            log "Installed $BIN_NAME to: $target_path"
+            log "Installed $PKG_NAME to: $target_path"
             ;;
         *)
             error "Unsupported package type: $PKG_TYPE"
@@ -262,7 +262,7 @@ main() {
             ;;
     esac
 
-    log "Starting $BIN_NAME installation..."
+    log "Starting $PKG_NAME installation..."
     log "System: $DISTRO $ARCH"
     log "Package type: $PKG_TYPE"
     log "Installation path: $PKG_PATH"
@@ -286,14 +286,14 @@ main() {
 
     # Verify installation
     if [[ "$PKG_TYPE" == "tar.gz" || "$PKG_TYPE" == "zip" ]]; then
-        local installed_binary="${PKG_PATH}/${BIN_NAME}"
+        local installed_binary="${PKG_PATH}/${PKG_NAME}"
         if [[ -x "$installed_binary" ]]; then
             log "Installation successful!"
             log "Binary location: $installed_binary"
 
             # Check if PATH includes the installation directory
             if [[ ":$PATH:" != *":$PKG_PATH:"* ]]; then
-                log "NOTE: Add $PKG_PATH to your PATH to use '$BIN_NAME' from anywhere:"
+                log "NOTE: Add $PKG_PATH to your PATH to use '$PKG_NAME' from anywhere:"
                 log "  export PATH=\"\$PATH:$PKG_PATH\""
             fi
 
@@ -305,7 +305,7 @@ main() {
         fi
     else
         log "Installation completed successfully!"
-        log "You can now use the '$BIN_NAME' command."
+        log "You can now use the '$PKG_NAME' command."
     fi
 }
 
