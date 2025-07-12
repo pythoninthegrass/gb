@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/pythoninthegrass/gb/compare/v0.2.0...v0.2.1) (2025-07-12)
+
+
+### Bug Fixes
+
+* unbound variable ([1488ea9](https://github.com/pythoninthegrass/gb/commit/1488ea9b58e5a8dceaecbcae50f2929024ba96ff))
+
 ## [0.2.0](https://github.com/pythoninthegrass/gb/compare/v0.1.0...v0.2.0) (2025-06-14)
 
 
