@@ -29,9 +29,9 @@ builds:
     ldflags:
       - -s
       - -w
-      - -X main.Version={{.Version}}
-      - -X main.BuildTime={{.Date}}
-      - -X main.Commit={{.Commit}}
+      - -X gb/internal/version.Version={{.Version}}
+      - -X gb/internal/version.BuildTime={{.Date}}
+      - -X gb/internal/version.Commit={{.Commit}}
     env:
       - CGO_ENABLED=0
 
@@ -121,9 +121,9 @@ kos:
     ldflags:
       - -s
       - -w
-      - -X main.Version={{.Version}}
-      - -X main.BuildTime={{.Date}}
-      - -X main.Commit={{.Commit}}
+      - -X gb/internal/version.Version={{.Version}}
+      - -X gb/internal/version.BuildTime={{.Date}}
+      - -X gb/internal/version.Commit={{.Commit}}
 
 # SBOM generation disabled
 # sboms:
