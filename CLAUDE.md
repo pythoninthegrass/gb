@@ -67,3 +67,7 @@ The project uses automated version management that integrates with release-pleas
 - **Release automation**: release-please handles version bumping and tag creation
 
 Build variables in taskfile.yml control versioning and binary naming.
+
+## Documentation References
+
+- Release Please Commit Guidelines: https://github.com/marketplace/actions/release-please-action#how-should-i-write-my-commits
