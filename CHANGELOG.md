@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/pythoninthegrass/gb/compare/v0.2.2...v0.2.3) (2025-07-13)
+
+
+### Bug Fixes
+
+* update GoReleaser ldflags for new version package paths ([fb27382](https://github.com/pythoninthegrass/gb/commit/fb27382bfd79c87b5f2d82d14e947f051d08f87f))
+
 ## [0.2.2](https://github.com/pythoninthegrass/gb/compare/v0.2.1...v0.2.2) (2025-07-12)
 
 
